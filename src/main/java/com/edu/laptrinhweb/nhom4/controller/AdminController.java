@@ -215,7 +215,7 @@ public class AdminController {
 
 
     //Bill session
-    @GetMapping("/admin/categories")
+    @GetMapping("/admin/bills")
     public String getBill(Model model){
         model.addAttribute("categories", billService.getAllBill());
         return "categories";
