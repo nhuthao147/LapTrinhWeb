@@ -27,7 +27,7 @@ import java.util.Optional;
 
 @Controller
 public class AdminController {
-    public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/productImages";
+    public static String uploadDir = System.getProperty("user.dir") + "/media/";
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
@@ -183,8 +183,7 @@ public class AdminController {
         product.setImageName(filename);
 
         productService.updateProduct(product);
-        model.addAttribute("products", productService.getAllProduct());
-        return "products";
+        return "redirect:/admin/products";
     }//form add new product > do add
 
     @GetMapping("/admin/products/delete/{id}")
