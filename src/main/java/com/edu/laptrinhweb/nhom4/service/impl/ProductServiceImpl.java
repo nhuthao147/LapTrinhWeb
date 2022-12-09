@@ -1,9 +1,8 @@
-package com.edu.hutech.major.service.impl;
+package com.edu.laptrinhweb.nhom4.service.impl;
 
-import com.edu.hutech.major.model.Product;
-import com.edu.hutech.major.repository.CategoryRepository;
-import com.edu.hutech.major.repository.ProductRepository;
-import com.edu.hutech.major.service.ProductService;
+import com.edu.laptrinhweb.nhom4.model.Product;
+import com.edu.laptrinhweb.nhom4.repository.ProductRepository;
+import com.edu.laptrinhweb.nhom4.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,11 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
 	public List<Product> getAllProduct() {
-        return productRepository.findAll();
+
+        for (Product p: productRepository.findAll()
+        ) {
+            System.out.println(p.getName()+" - "+p.getImageName());
+        }return productRepository.findAll();
     }//findAll
 
     @Override

@@ -1,10 +1,8 @@
-package com.edu.hutech.major.service.impl;
+package com.edu.laptrinhweb.nhom4.service.impl;
 
-import com.edu.hutech.major.model.Category;
-import com.edu.hutech.major.model.Product;
-import com.edu.hutech.major.repository.CategoryRepository;
-import com.edu.hutech.major.repository.ProductRepository;
-import com.edu.hutech.major.service.CategoryService;
+import com.edu.laptrinhweb.nhom4.model.Category;
+import com.edu.laptrinhweb.nhom4.repository.CategoryRepository;
+import com.edu.laptrinhweb.nhom4.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

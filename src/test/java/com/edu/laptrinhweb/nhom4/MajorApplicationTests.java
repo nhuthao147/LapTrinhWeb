@@ -1,13 +1,13 @@
-package com.edu.hutech.major;
+package com.edu.laptrinhweb.nhom4;
 
-import com.edu.hutech.major.model.Category;
-import com.edu.hutech.major.model.Product;
-import com.edu.hutech.major.model.Role;
-import com.edu.hutech.major.model.User;
-import com.edu.hutech.major.repository.CategoryRepository;
-import com.edu.hutech.major.repository.ProductRepository;
-import com.edu.hutech.major.repository.RoleRepository;
-import com.edu.hutech.major.repository.UserRepository;
+import com.edu.laptrinhweb.nhom4.model.Category;
+import com.edu.laptrinhweb.nhom4.model.Product;
+import com.edu.laptrinhweb.nhom4.model.Role;
+import com.edu.laptrinhweb.nhom4.model.User;
+import com.edu.laptrinhweb.nhom4.repository.CategoryRepository;
+import com.edu.laptrinhweb.nhom4.repository.ProductRepository;
+import com.edu.laptrinhweb.nhom4.repository.RoleRepository;
+import com.edu.laptrinhweb.nhom4.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

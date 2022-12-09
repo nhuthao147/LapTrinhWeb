@@ -1,15 +1,15 @@
-package com.edu.hutech.major.controller;
+package com.edu.laptrinhweb.nhom4.controller;
 
-import com.edu.hutech.major.dto.ProductDTO;
-import com.edu.hutech.major.dto.UserDTO;
-import com.edu.hutech.major.model.Category;
-import com.edu.hutech.major.model.Product;
-import com.edu.hutech.major.model.Role;
-import com.edu.hutech.major.model.User;
-import com.edu.hutech.major.service.CategoryService;
-import com.edu.hutech.major.service.ProductService;
-import com.edu.hutech.major.service.RoleService;
-import com.edu.hutech.major.service.UserService;
+import com.edu.laptrinhweb.nhom4.dto.ProductDTO;
+import com.edu.laptrinhweb.nhom4.dto.UserDTO;
+import com.edu.laptrinhweb.nhom4.model.Category;
+import com.edu.laptrinhweb.nhom4.model.Product;
+import com.edu.laptrinhweb.nhom4.model.Role;
+import com.edu.laptrinhweb.nhom4.model.User;
+import com.edu.laptrinhweb.nhom4.service.CategoryService;
+import com.edu.laptrinhweb.nhom4.service.ProductService;
+import com.edu.laptrinhweb.nhom4.service.RoleService;
+import com.edu.laptrinhweb.nhom4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -162,9 +162,8 @@ public class AdminController {
     }// form add new product
 
     @PostMapping("/admin/products/add")
-    public String postProAdd(@ModelAttribute("productDTO") ProductDTO productDTO,
-                             @RequestParam("productImage") MultipartFile fileProductImage,
-                             @RequestParam("imgName") String imgName) throws IOException {
+    public String postProAdd(Model model, @ModelAttribute("productDTO") ProductDTO productDTO,
+                             @RequestParam("productImage") MultipartFile fileProductImage) throws IOException {
         //convert dto > entity
         Product product = new Product();
         product.setId(productDTO.getId());
@@ -173,18 +172,19 @@ public class AdminController {
         product.setPrice(productDTO.getPrice());
         product.setWeight(productDTO.getWeight());
         product.setDescription(productDTO.getDescription());
-        String imageUUID;
-        if(!fileProductImage.isEmpty()){
-            imageUUID = fileProductImage.getOriginalFilename();
-            Path fileNameAndPath = Paths.get(uploadDir, imageUUID);
-            Files.write(fileNameAndPath, fileProductImage.getBytes());
-        }else {
-            imageUUID = imgName;
-        }//save image
-        product.setImageName(imageUUID);
+
+        String filename = Paths.get(fileProductImage.getOriginalFilename()).toString();
+        int index = filename.lastIndexOf(".");
+        String ext = filename.substring(index + 1);
+        filename = System.currentTimeMillis() + "." + ext;
+
+        Path fileNameAndPath = Paths.get(uploadDir, filename);
+        Files.write(fileNameAndPath, fileProductImage.getBytes());
+        product.setImageName(filename);
 
         productService.updateProduct(product);
-        return "redirect:/admin/products";
+        model.addAttribute("products", productService.getAllProduct());
+        return "products";
     }//form add new product > do add
 
     @GetMapping("/admin/products/delete/{id}")

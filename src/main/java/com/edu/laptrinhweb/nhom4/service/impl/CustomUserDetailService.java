@@ -1,9 +1,8 @@
-package com.edu.hutech.major.service.impl;
+package com.edu.laptrinhweb.nhom4.service.impl;
 
-import com.edu.hutech.major.model.CustomUserDetail;
-import com.edu.hutech.major.model.User;
-import com.edu.hutech.major.repository.UserRepository;
-import com.edu.hutech.major.service.UserService;
+import com.edu.laptrinhweb.nhom4.model.CustomUserDetail;
+import com.edu.laptrinhweb.nhom4.model.User;
+import com.edu.laptrinhweb.nhom4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

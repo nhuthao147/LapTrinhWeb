@@ -1,9 +1,9 @@
-package com.edu.hutech.major.configuration;
+package com.edu.laptrinhweb.nhom4.configuration;
 
-import com.edu.hutech.major.model.Role;
-import com.edu.hutech.major.model.User;
-import com.edu.hutech.major.repository.RoleRepository;
-import com.edu.hutech.major.repository.UserRepository;
+import com.edu.laptrinhweb.nhom4.model.Role;
+import com.edu.laptrinhweb.nhom4.model.User;
+import com.edu.laptrinhweb.nhom4.repository.RoleRepository;
+import com.edu.laptrinhweb.nhom4.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;

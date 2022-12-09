@@ -1,6 +1,6 @@
-package com.edu.hutech.major.configuration;
+package com.edu.laptrinhweb.nhom4.configuration;
 
-import com.edu.hutech.major.service.impl.CustomUserDetailService;
+import com.edu.laptrinhweb.nhom4.service.impl.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

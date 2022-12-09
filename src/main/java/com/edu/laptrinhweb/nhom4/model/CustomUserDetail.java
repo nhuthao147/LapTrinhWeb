@@ -1,4 +1,4 @@
-package com.edu.hutech.major.model;
+package com.edu.laptrinhweb.nhom4.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

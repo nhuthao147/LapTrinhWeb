@@ -1,6 +1,6 @@
-package com.edu.hutech.major.global;
+package com.edu.laptrinhweb.nhom4.global;
 
-import com.edu.hutech.major.model.Product;
+import com.edu.laptrinhweb.nhom4.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;

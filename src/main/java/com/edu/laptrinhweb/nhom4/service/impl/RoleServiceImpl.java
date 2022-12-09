@@ -1,8 +1,8 @@
-package com.edu.hutech.major.service.impl;
+package com.edu.laptrinhweb.nhom4.service.impl;
 
-import com.edu.hutech.major.model.Role;
-import com.edu.hutech.major.repository.RoleRepository;
-import com.edu.hutech.major.service.RoleService;
+import com.edu.laptrinhweb.nhom4.model.Role;
+import com.edu.laptrinhweb.nhom4.repository.RoleRepository;
+import com.edu.laptrinhweb.nhom4.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

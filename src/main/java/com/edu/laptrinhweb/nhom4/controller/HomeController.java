@@ -1,13 +1,13 @@
-package com.edu.hutech.major.controller;
+package com.edu.laptrinhweb.nhom4.controller;
 
-import com.edu.hutech.major.dto.UserDTO;
-import com.edu.hutech.major.global.GlobalData;
-import com.edu.hutech.major.model.Role;
-import com.edu.hutech.major.model.User;
-import com.edu.hutech.major.service.CategoryService;
-import com.edu.hutech.major.service.ProductService;
-import com.edu.hutech.major.service.RoleService;
-import com.edu.hutech.major.service.UserService;
+import com.edu.laptrinhweb.nhom4.dto.UserDTO;
+import com.edu.laptrinhweb.nhom4.global.GlobalData;
+import com.edu.laptrinhweb.nhom4.model.Role;
+import com.edu.laptrinhweb.nhom4.model.User;
+import com.edu.laptrinhweb.nhom4.service.CategoryService;
+import com.edu.laptrinhweb.nhom4.service.ProductService;
+import com.edu.laptrinhweb.nhom4.service.RoleService;
+import com.edu.laptrinhweb.nhom4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class HomeController {

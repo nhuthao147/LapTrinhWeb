@@ -1,4 +1,4 @@
-package com.edu.hutech.major.dto;
+package com.edu.laptrinhweb.nhom4.dto;
 
 import lombok.Data;
 

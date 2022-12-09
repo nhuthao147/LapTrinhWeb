@@ -1,8 +1,8 @@
-package com.edu.hutech.major.controller;
+package com.edu.laptrinhweb.nhom4.controller;
 
-import com.edu.hutech.major.global.GlobalData;
-import com.edu.hutech.major.model.Product;
-import com.edu.hutech.major.service.ProductService;
+import com.edu.laptrinhweb.nhom4.global.GlobalData;
+import com.edu.laptrinhweb.nhom4.model.Product;
+import com.edu.laptrinhweb.nhom4.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

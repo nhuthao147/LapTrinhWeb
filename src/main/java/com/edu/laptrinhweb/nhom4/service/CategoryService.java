@@ -1,7 +1,7 @@
-package com.edu.hutech.major.service;
+package com.edu.laptrinhweb.nhom4.service;
 
 
-import com.edu.hutech.major.model.Category;
+import com.edu.laptrinhweb.nhom4.model.Category;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

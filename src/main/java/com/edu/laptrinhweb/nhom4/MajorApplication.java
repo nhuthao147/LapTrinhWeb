@@ -1,7 +1,8 @@
-package com.edu.hutech.major;
+package com.edu.laptrinhweb.nhom4;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class MajorApplication {
