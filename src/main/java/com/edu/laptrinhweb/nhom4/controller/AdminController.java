@@ -2,14 +2,8 @@ package com.edu.laptrinhweb.nhom4.controller;
 
 import com.edu.laptrinhweb.nhom4.dto.ProductDTO;
 import com.edu.laptrinhweb.nhom4.dto.UserDTO;
-import com.edu.laptrinhweb.nhom4.model.Category;
-import com.edu.laptrinhweb.nhom4.model.Product;
-import com.edu.laptrinhweb.nhom4.model.Role;
-import com.edu.laptrinhweb.nhom4.model.User;
-import com.edu.laptrinhweb.nhom4.service.CategoryService;
-import com.edu.laptrinhweb.nhom4.service.ProductService;
-import com.edu.laptrinhweb.nhom4.service.RoleService;
-import com.edu.laptrinhweb.nhom4.service.UserService;
+import com.edu.laptrinhweb.nhom4.model.*;
+import com.edu.laptrinhweb.nhom4.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -43,6 +37,8 @@ public class AdminController {
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    BillService billService;
     @GetMapping("/admin")
     public String adminHome(){
         return "adminHome";
@@ -215,4 +211,42 @@ public class AdminController {
         }
 
     }//form edit product, fill old data into form
+
+
+
+    //Bill session
+    @GetMapping("/admin/categories")
+    public String getBill(Model model){
+        model.addAttribute("categories", billService.getAllBill());
+        return "categories";
+    }//view all categories
+
+    @GetMapping("/admin/bill/add")
+    public String getBillAdd(Model model){
+        model.addAttribute("bill", new Bill());
+        return "categoriesAdd";
+    }//form add new category
+
+    @PostMapping("/admin/bill/add")
+    public String postBillAdd(@ModelAttribute("category") Bill bill){
+        billService.updateBill(bill);
+        return "redirect:/admin/bill";
+    }//form add new category > do add
+
+    @GetMapping("/admin/bill/delete/{id}")
+    public String deleteBill(@PathVariable Long id){
+        billService.removeBillById(id);
+        return "redirect:/admin/bill";
+    }//delete 1 category
+
+    @GetMapping("/admin/bill/update/{id}")
+    public String updateBill(@PathVariable Long id, Model model){
+        Optional<Bill> bill = billService.getBillById(id);
+        if(bill.isPresent()){
+            model.addAttribute("bill", bill.get());
+            return "billsAdd";
+        }else {
+            return "404";
+        }
+    }//form edit category, fill old data into form
 }
