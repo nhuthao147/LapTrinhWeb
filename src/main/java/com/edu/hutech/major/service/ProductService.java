@@ -18,5 +18,5 @@ public interface ProductService {
 	void updateProduct(Product product);
 
 	List<Product> getAllProduct();
-    
+    List<Product> getRandomListProducts(int lenght);
 }

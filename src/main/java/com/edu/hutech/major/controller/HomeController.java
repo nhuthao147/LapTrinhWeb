@@ -102,6 +102,7 @@ public class HomeController {
     public String viewProduct(@PathVariable long id, Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
         model.addAttribute("product", productService.getProductById(id).get());
+        model.addAttribute("products", productService.getRandomListProducts(6));
         return "viewProduct";
     } //view product Details
 
