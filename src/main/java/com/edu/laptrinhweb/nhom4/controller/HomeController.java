@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
@@ -39,6 +40,8 @@ public class HomeController {
     @GetMapping({"/", "/home"})
     public String home(Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
+        model.addAttribute("categories", categoryService.getAllCategory());
+        model.addAttribute("products", productService.getAllProduct());
         return "index";
     } //index
     @GetMapping("/users/add")

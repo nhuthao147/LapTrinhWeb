@@ -19,4 +19,5 @@ public class ProductDTO {
 
     private String imageName;
 
+    private Long quantity;
 }

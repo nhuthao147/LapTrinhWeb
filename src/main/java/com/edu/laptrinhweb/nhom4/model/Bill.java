@@ -18,8 +18,8 @@ public class Bill {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany(mappedBy = "bills")
-    private Set<Product> products;
+    @OneToMany(mappedBy = "bill")
+    private Set<Bill_Product> bill_productList;
 
     private double total;
 

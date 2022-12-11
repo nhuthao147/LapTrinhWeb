@@ -18,9 +18,8 @@ public class Product {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "product_bill", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "bill_id"))
-    private Set<Bill> bills;
+    @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY)
+    private Set<Bill_Product> bill_productList;
 
     private double price;
 
@@ -30,4 +29,5 @@ public class Product {
 
     private String imageName;
 
+    private Long quantity;
 }//create table mapping trong db

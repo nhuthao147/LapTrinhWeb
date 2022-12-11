@@ -4,6 +4,8 @@ import com.edu.laptrinhweb.nhom4.model.Product;
 import com.edu.laptrinhweb.nhom4.repository.ProductRepository;
 import com.edu.laptrinhweb.nhom4.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -44,4 +46,23 @@ public class ProductServiceImpl implements ProductService{
     }
     //findList theo ProductDTO.categoryId
 
+    @Override
+    public Page<Product> findByProductNameContaining(String name, Pageable pageable) {
+        return productRepository.findByProductNameContaining(name, pageable);
+    }
+
+    @Override
+    public List<Product> findByProductNameContaining(String name) {
+        return productRepository.findByProductNameContaining(name);
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public long count() {
+        return productRepository.count();
+    }
 }
