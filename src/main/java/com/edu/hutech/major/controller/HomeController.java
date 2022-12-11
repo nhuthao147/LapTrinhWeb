@@ -40,6 +40,8 @@ public class HomeController {
     @GetMapping({"/", "/home"})
     public String home(Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
+        model.addAttribute("categories", categoryService.getAllCategory());
+        model.addAttribute("products", productService.getAllProduct());
         return "index";
     } //index
     @GetMapping("/users/add")
