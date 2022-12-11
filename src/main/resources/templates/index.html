@@ -103,7 +103,11 @@
     <div class="row margin-top: 20px">
         <div class="col-lg-4 col-md-6, col-sm-12" th:each="product : ${products}">
             <div class="card mt-4" >
+<<<<<<< HEAD
                     <img class="rounded mx-auto d-block pt-3" height="150px" width="150px" th:src="@{${'/productImages/' + product.imageName}}" th:alt="${product.name}">
+=======
+                    <img class="rounded mx-auto d-block pt-3" height="150px" width="150px" th:src="@{${'/media/' + product.imageName}}" th:alt="${product.name}">
+>>>>>>> 70fa388dd56f5e65f0ded48510a4b138d93d5b19
                     <div class="card-body">
                         <h5 class="card-title" th:text="${product.name}" ></h5>
                         <h4>₹ <span th:text="${product.price}"></span></h4>
