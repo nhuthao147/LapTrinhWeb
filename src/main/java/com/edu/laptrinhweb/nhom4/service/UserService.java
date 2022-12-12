@@ -1,6 +1,9 @@
 package com.edu.laptrinhweb.nhom4.service;
 
+import com.edu.laptrinhweb.nhom4.model.Product;
 import com.edu.laptrinhweb.nhom4.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,4 +16,8 @@ public interface UserService {
     void removeUserById(int id);
     Optional<User> getUserById(int id);
     Optional<User> getUserByEmail(String email);
+
+    Page<User> findAll(Pageable pageable);
+
+    long count();
 }

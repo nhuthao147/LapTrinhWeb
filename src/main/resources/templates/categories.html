@@ -50,7 +50,7 @@
         </thead>
         <tbody>
 
-        <tr th:each="category, iStat : ${categories}">
+        <tr th:each="category, iStat : ${categoryPage.content}">
             <th scope="row" th:text="${iStat.index + 1}">1</th>
             <td th:text="${category.name}">Larry</td>
 
@@ -60,6 +60,28 @@
         </tr>
         </tbody>
     </table>
+    <nav aria-label="Page navigation" th:if="${categoryPage.totalPages > 0 }" class="mt-5 justify-content-end">
+        <ul class="pagination" >
+            <li
+                    class="${1 == categoryPage.number + 1 ? 'page-item active' : 'page-item' }">
+                <a class="page-link"
+                   th:href="@{/admin/categories/(size=${categoryPage.size},page=${1})}"
+                   tabindex="-1" aria-disabled="true">First</a>
+            </li>
+            <li th:each="pageNumber, iStat: ${pageNumbers}" th:if="${categoryPage.totalPages > 1}"
+                class="${pageNumber == userPage.number + 1 ? 'page-item active' : 'page-item'}">
+                <a class="page-link"
+                   th:href="@{/admin/categories/(size=${categoryPage.size},page=${pageNumber})}" th:text="${pageNumber}"></a>
+            </li>
+            <li
+                    class="${categoryPage.totalPages == userPage.number + 1 ? 'page-item active' : 'page-item'}">
+                <a
+                        th:href="@{/admin/categories/(size=${categoryPage.size},page=${categoryPage.totalPages})}"
+                        class="page-link">Last</a>
+            </li>
+
+        </ul>
+    </nav>
 </div>
 
 

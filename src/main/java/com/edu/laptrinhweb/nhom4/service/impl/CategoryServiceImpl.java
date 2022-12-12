@@ -4,6 +4,8 @@ import com.edu.laptrinhweb.nhom4.model.Category;
 import com.edu.laptrinhweb.nhom4.repository.CategoryRepository;
 import com.edu.laptrinhweb.nhom4.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,5 +31,15 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<Category> getCategoryById(int id){
         return categoryRepository.findById(id);
     }//search theo id
+
+    @Override
+    public long count() {
+        return categoryRepository.count();
+    }
+
+    @Override
+    public Page<Category> findAll(Pageable pageable) {
+        return categoryRepository.findAll(pageable);
+    }
 
 }

@@ -96,12 +96,16 @@
             <span class="carousel-control-next-icon"></span>
         </a>
     </div>
-   <p class="lead">
-        Products list:
-    </p>
+    <form action="/home" class="mt-5">
+        <div class="input-group">
+            <input class="form-control mL-2" name="name" id="name"
+                   placeholder="Nhập từ khóa để tìm kiếm" />
+            <button class="btn btn-outline-primary mL-2">Search</button>
+        </div>
+    </form>
 
     <div class="row margin-top: 20px">
-        <div class="col-lg-4 col-md-6, col-sm-12" th:each="product : ${products}">
+        <div class="col-lg-4 col-md-6, col-sm-12" th:each="product : ${productPage.content}">
             <div class="card mt-4" >
                     <img class="rounded mx-auto d-block pt-3" height="150px" width="150px" th:src="@{${'/media/' + product.imageName}}" th:alt="${product.name}">
 
@@ -114,6 +118,29 @@
             </div>
         </div>
     </div>
+
+    <nav aria-label="Page navigation" th:if="${productPage.totalPages > 0 }" class="mt-5 justify-content-end">
+        <ul class="pagination" >
+            <li
+                    class="${1 == productPage.number + 1 ? 'page-item active' : 'page-item' }">
+                <a class="page-link"
+                   th:href="@{/home/(name=${name},size=${productPage.size},page=${1})}"
+                   tabindex="-1" aria-disabled="true">First</a>
+            </li>
+            <li th:each="pageNumber, iStat: ${pageNumbers}" th:if="${productPage.totalPages > 1}"
+                class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
+                <a class="page-link"
+                   th:href="@{/home/(name=${name},size=${productPage.size},page=${pageNumber})}" th:text="${pageNumber}"></a>
+            </li>
+            <li
+                    class="${productPage.totalPages == productPage.number + 1 ? 'page-item active' : 'page-item'}">
+                <a
+                        th:href="@{/home/(name=${name},size=${productPage.size},page=${productPage.totalPages})}"
+                        class="page-link">Last</a>
+            </li>
+
+        </ul>
+    </nav>
 </div>
 
 <div class="footer-dark mt-4">

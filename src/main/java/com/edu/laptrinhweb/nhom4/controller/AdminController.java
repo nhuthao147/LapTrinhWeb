@@ -2,7 +2,6 @@ package com.edu.laptrinhweb.nhom4.controller;
 
 import com.edu.laptrinhweb.nhom4.dto.ProductDTO;
 import com.edu.laptrinhweb.nhom4.dto.UserDTO;
-import com.edu.laptrinhweb.nhom4.global.GlobalData;
 import com.edu.laptrinhweb.nhom4.model.*;
 import com.edu.laptrinhweb.nhom4.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +20,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -47,8 +46,6 @@ public class AdminController {
 
     @Autowired
     BillService billService;
-
-
     @GetMapping("/admin")
     public String adminHome(){
         return "adminHome";
@@ -56,8 +53,34 @@ public class AdminController {
 
     //Accounts
     @GetMapping("/admin/users")
-    public String getAcc(Model model){
-        model.addAttribute("users", userService.getAllUser());
+    public String getAcc(Model model,
+                         @RequestParam("page") Optional<Integer> page,
+                         @RequestParam("size") Optional<Integer> size){
+        int count = (int) userService.count();
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Pageable pageable = PageRequest.of(currentPage -1, pageSize, Sort.by("id"));
+        Page<User> resultPage = null;
+        resultPage = userService.findAll(pageable);
+
+        int totalPages = resultPage.getTotalPages();
+        if(totalPages > 0) {
+            int start = Math.max(1, currentPage-2);
+            int end = Math.min(currentPage+2, totalPages);
+            if(totalPages > count) {
+                if(end == totalPages) start = end - count;
+                else if(start == 1) end = start + count;
+            }
+            List<Integer> pageNumbers = IntStream.rangeClosed(start, end)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        model.addAttribute("userPage", resultPage);
+
+//        model.addAttribute("products", productService.getAllProduct());
         //model.addAttribute("roles", roleService.getAllRole());
         return "users";
     }
@@ -119,8 +142,35 @@ public class AdminController {
 
     //Categories session
     @GetMapping("/admin/categories")
-    public String getCat(Model model){
-        model.addAttribute("categories", categoryService.getAllCategory());
+    public String getCat(Model model,
+                         @RequestParam("page") Optional<Integer> page,
+                         @RequestParam("size") Optional<Integer> size){
+        int count = (int) categoryService.count();
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Pageable pageable = PageRequest.of(currentPage -1, pageSize, Sort.by("id"));
+        Page<Category> resultPage = null;
+        resultPage = categoryService.findAll(pageable);
+
+        int totalPages = resultPage.getTotalPages();
+        if(totalPages > 0) {
+            int start = Math.max(1, currentPage-2);
+            int end = Math.min(currentPage+2, totalPages);
+            if(totalPages > count) {
+                if(end == totalPages) start = end - count;
+                else if(start == 1) end = start + count;
+            }
+            List<Integer> pageNumbers = IntStream.rangeClosed(start, end)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        model.addAttribute("categoryPage", resultPage);
+
+//        model.addAttribute("products", productService.getAllProduct());
+        //model.addAttribute("roles", roleService.getAllRole());
         return "categories";
     }//view all categories
 
@@ -161,9 +211,9 @@ public class AdminController {
                          @RequestParam("size") Optional<Integer> size){
         int count = (int) productService.count();
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(3);
+        int pageSize = size.orElse(5);
 
-        Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by("id"));
+        Pageable pageable = PageRequest.of(currentPage -1, pageSize, Sort.by("id"));
         Page<Product> resultPage = null;
         if(StringUtils.hasText(name)) {
             resultPage = productService.findByProductNameContaining(name, pageable);
@@ -189,7 +239,7 @@ public class AdminController {
 
         model.addAttribute("productPage", resultPage);
 
-        model.addAttribute("products", productService.getAllProduct());
+//        model.addAttribute("products", productService.getAllProduct());
         return "products";
     }//view all products
 
@@ -259,53 +309,22 @@ public class AdminController {
 
 
     //Bill session
-    @GetMapping("/admin/bill")
+    @GetMapping("/admin/bills")
     public String getBill(Model model){
         model.addAttribute("categories", billService.getAllBill());
-        return "checkout";
+        return "categories";
     }//view all categories
 
-    @GetMapping("/bill/add")
+    @GetMapping("/admin/bill/add")
     public String getBillAdd(Model model){
-        Bill bill = new Bill();
-        model.addAttribute("cartCount", GlobalData.cart.size());
-        model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
-        UserDTO currentUser = new UserDTO();
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails && ((UserDetails) principal).getUsername() != null) {
-            String currentUsername = ((UserDetails)principal).getUsername();
-            User user = userService.getUserByEmail(currentUsername).get();
-            currentUser.setId(user.getId());
-            currentUser.setEmail(user.getEmail());
-            currentUser.setPassword("");
-            currentUser.setFirstName(user.getFirstName());
-            currentUser.setLastName(user.getLastName());
-            List<Integer> roleIds = new ArrayList<>();
-            for (Role item:user.getRoles()) {
-                roleIds.add(item.getId());
-            }
-            currentUser.setRoleIds(roleIds);
-
-        }//get current User runtime
-
-        bill.setFirstName(currentUser.getFirstName());
-        bill.setLastName(currentUser.getLastName());
-        bill.setEmail(currentUser.getEmail());
-
-        model.addAttribute("bill", bill);
-        return "checkout";
+        model.addAttribute("bill", new Bill());
+        return "categoriesAdd";
     }//form add new category
 
-    @PostMapping("/bill/add")
-    public String postBillAdd(@ModelAttribute("bill") Bill bill){
-        bill.setTotal(GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
-        bill.setUser(userService.getUserByEmail(bill.getEmail()).get());
-//        Set<Product> productSet = GlobalData.cart.;
-//        List<Product> products = GlobalData.cart;
-//        products.forEach(p->bill.setProducts(p));
-        billService.saveSill(bill, GlobalData.cart);
-        GlobalData.cart = new ArrayList<>();
-        return "redirect:/";
+    @PostMapping("/admin/bill/add")
+    public String postBillAdd(@ModelAttribute("category") Bill bill){
+        billService.updateBill(bill);
+        return "redirect:/admin/bill";
     }//form add new category > do add
 
     @GetMapping("/admin/bill/delete/{id}")

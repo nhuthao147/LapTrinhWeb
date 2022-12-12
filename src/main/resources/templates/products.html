@@ -36,6 +36,17 @@
     </div>
 </nav>
 <div class="container-fluid">
+    <!-- Tìm kiếm -->
+    <form action="/admin/products">
+        <div class="input-group">
+            <input class="form-control mL-2" name="name" id="name"
+                   placeholder="Nhập từ khóa để tìm kiếm" />
+            <button class="btn btn-outline-primary mL-2">Search</button>
+        </div>
+    </form>
+
+
+
 
     <a th:href="@{/admin/products/add}" style="margin: 20px 0" class="btn btn-primary">Add Product</a>
     <table class="table">
@@ -51,7 +62,7 @@
         </thead>
         <tbody>
 
-        <tr th:each="product, iStat : ${products}">
+        <tr th:each="product, iStat : ${productPage.content}">
             <th scope="row" th:text="${iStat.index + 1}">1</th>
             <td th:text="${product.name}">Larry</td>
             <td th:text="${product.category.name}">Larry</td>
@@ -63,6 +74,30 @@
         </tr>
         </tbody>
     </table>
+    <!-- Phân trang -->
+    <nav aria-label="Page navigation" th:if="${productPage.totalPages > 0 }">
+        <ul class="pagination" >
+            <li
+                    class="${1 == productPage.number + 1 ? 'page-item active' : 'page-item' }">
+                <a class="page-link"
+                   th:href="@{/admin/products(name=${name},size=${productPage.size},page=${1})}"
+                   tabindex="-1" aria-disabled="true">First</a>
+            </li>
+            <li th:each="pageNumber, iStat: ${pageNumbers}" th:if="${productPage.totalPages > 1}"
+                class="${pageNumber == productPage.number + 1 ? 'page-item active' : 'page-item'}">
+                <a class="page-link"
+                   th:href="@{/admin/products(name=${name},size=${productPage.size},page=${pageNumber})}" th:text="${pageNumber}"></a>
+            </li>
+            <li
+                    class="${productPage.totalPages == productPage.number + 1 ? 'page-item active' : 'page-item'}">
+                <a
+                        th:href="@{/admin/products(name=${name},size=${productPage.size},page=${productPage.totalPages})}"
+                        class="page-link">Last</a>
+            </li>
+
+        </ul>
+    </nav>
+    <!-- Kết thúc phân trang -->
 </div>
 
 
