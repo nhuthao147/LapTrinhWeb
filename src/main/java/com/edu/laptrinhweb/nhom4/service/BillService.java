@@ -1,8 +1,7 @@
 package com.edu.laptrinhweb.nhom4.service;
 
 import com.edu.laptrinhweb.nhom4.model.Bill;
-import com.edu.laptrinhweb.nhom4.model.Category;
-import com.edu.laptrinhweb.nhom4.repository.BillRepository;
+import com.edu.laptrinhweb.nhom4.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,4 +16,6 @@ public interface BillService {
     public void removeBillById(Long id);
 
     public Optional<Bill> getBillById(Long id);
+
+    Bill saveSill(Bill bill, List<Product> cart);
 }

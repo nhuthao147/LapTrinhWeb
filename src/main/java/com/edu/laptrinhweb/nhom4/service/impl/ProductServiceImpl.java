@@ -10,23 +10,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Component
 public class ProductServiceImpl implements ProductService{
+    private static Random rnd = new Random();
     @Autowired
     ProductRepository productRepository;
 
     @Override
 	public List<Product> getAllProduct() {
-
-        for (Product p: productRepository.findAll()
-        ) {
-            System.out.println(p.getName()+" - "+p.getImageName());
-        }return productRepository.findAll();
+        return productRepository.findAll();
     }//findAll
 
     @Override
 	public void updateProduct(Product product) {
+
         productRepository.save(product);
     }//add or update (tuy vao pri-key)
 
@@ -48,12 +47,12 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Page<Product> findByProductNameContaining(String name, Pageable pageable) {
-        return productRepository.findByProductNameContaining(name, pageable);
+        return productRepository.findByNameContaining(name, pageable);
     }
 
     @Override
     public List<Product> findByProductNameContaining(String name) {
-        return productRepository.findByProductNameContaining(name);
+        return productRepository.findByNameContaining(name);
     }
 
     @Override
@@ -65,4 +64,20 @@ public class ProductServiceImpl implements ProductService{
     public long count() {
         return productRepository.count();
     }
+
+    @Override
+    public List<Product> getRandomListProducts(int lenght) {
+        List<Product> productList = productRepository.findAll();
+        int lastIndex;
+        lastIndex = productList.size() -1;
+        while(lastIndex > 0 ){
+            Product tempValue = productList.get(lastIndex);
+            int randomIndex = rnd.nextInt(lastIndex);
+            productList.set(lastIndex, productList.get(randomIndex));
+            productList.set(randomIndex, tempValue);
+            lastIndex--;
+        }
+        return productList.subList(0, lenght);
+    }
+
 }

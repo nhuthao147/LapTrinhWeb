@@ -28,4 +28,5 @@ public interface ProductService {
 	Page<Product> findAll(Pageable pageable);
 
 	long count();
+	List<Product> getRandomListProducts(int lenght);
 }

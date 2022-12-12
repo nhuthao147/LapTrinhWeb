@@ -2,6 +2,7 @@ package com.edu.laptrinhweb.nhom4.controller;
 
 import com.edu.laptrinhweb.nhom4.dto.ProductDTO;
 import com.edu.laptrinhweb.nhom4.dto.UserDTO;
+import com.edu.laptrinhweb.nhom4.global.GlobalData;
 import com.edu.laptrinhweb.nhom4.model.*;
 import com.edu.laptrinhweb.nhom4.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -46,6 +47,8 @@ public class AdminController {
 
     @Autowired
     BillService billService;
+
+
     @GetMapping("/admin")
     public String adminHome(){
         return "adminHome";
@@ -186,7 +189,7 @@ public class AdminController {
 
         model.addAttribute("productPage", resultPage);
 
-        //model.addAttribute("products", productService.getAllProduct());
+        model.addAttribute("products", productService.getAllProduct());
         return "products";
     }//view all products
 
@@ -256,22 +259,53 @@ public class AdminController {
 
 
     //Bill session
-    @GetMapping("/admin/bills")
+    @GetMapping("/admin/bill")
     public String getBill(Model model){
         model.addAttribute("categories", billService.getAllBill());
-        return "categories";
+        return "checkout";
     }//view all categories
 
-    @GetMapping("/admin/bill/add")
+    @GetMapping("/bill/add")
     public String getBillAdd(Model model){
-        model.addAttribute("bill", new Bill());
-        return "categoriesAdd";
+        Bill bill = new Bill();
+        model.addAttribute("cartCount", GlobalData.cart.size());
+        model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
+        UserDTO currentUser = new UserDTO();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails && ((UserDetails) principal).getUsername() != null) {
+            String currentUsername = ((UserDetails)principal).getUsername();
+            User user = userService.getUserByEmail(currentUsername).get();
+            currentUser.setId(user.getId());
+            currentUser.setEmail(user.getEmail());
+            currentUser.setPassword("");
+            currentUser.setFirstName(user.getFirstName());
+            currentUser.setLastName(user.getLastName());
+            List<Integer> roleIds = new ArrayList<>();
+            for (Role item:user.getRoles()) {
+                roleIds.add(item.getId());
+            }
+            currentUser.setRoleIds(roleIds);
+
+        }//get current User runtime
+
+        bill.setFirstName(currentUser.getFirstName());
+        bill.setLastName(currentUser.getLastName());
+        bill.setEmail(currentUser.getEmail());
+
+        model.addAttribute("bill", bill);
+        return "checkout";
     }//form add new category
 
-    @PostMapping("/admin/bill/add")
-    public String postBillAdd(@ModelAttribute("category") Bill bill){
-        billService.updateBill(bill);
-        return "redirect:/admin/bill";
+    @PostMapping("/bill/add")
+    public String postBillAdd(@ModelAttribute("bill") Bill bill){
+        bill.setTotal(GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
+        bill.setUser(userService.getUserByEmail(bill.getEmail()).get());
+//        Set<Product> productSet = GlobalData.cart.;
+//        List<Product> products = GlobalData.cart;
+//        products.forEach(p->bill.setProducts(p));
+        billService.saveSill(bill, GlobalData.cart);
+        GlobalData.cart = new ArrayList<>();
+        return "redirect:/";
     }//form add new category > do add
 
     @GetMapping("/admin/bill/delete/{id}")
