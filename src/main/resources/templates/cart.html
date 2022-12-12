@@ -29,15 +29,20 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/}" href="#">home</a>
+                    <a class="nav-link" th:href="@{/}" href="#">Home</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/shop}" href="#">shop</a>
+                    <a class="nav-link" th:href="@{/shop}" href="#">Shop</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#" th:href="@{/cart}">
                         <i class="fa-solid fa-cart-shopping"></i> <span class="nav-link badge badge-light" th:text="${cartCount}">0</span>
                     </a>
+                </li>
+                <li class="nav-item active">
+                    <form th:action="@{/users/add}">
+                        <button type="submit" class="btn"><i class="fas fa-user"></i></button>
+                    </form>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="#"><i class="fa-solid fa-right-to-bracket"></i></a>
