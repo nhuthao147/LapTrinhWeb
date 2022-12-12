@@ -2,6 +2,7 @@ package com.edu.laptrinhweb.nhom4.controller;
 
 import com.edu.laptrinhweb.nhom4.dto.UserDTO;
 import com.edu.laptrinhweb.nhom4.global.GlobalData;
+import com.edu.laptrinhweb.nhom4.model.Product;
 import com.edu.laptrinhweb.nhom4.model.Role;
 import com.edu.laptrinhweb.nhom4.model.User;
 import com.edu.laptrinhweb.nhom4.service.CategoryService;
@@ -9,15 +10,23 @@ import com.edu.laptrinhweb.nhom4.service.ProductService;
 import com.edu.laptrinhweb.nhom4.service.RoleService;
 import com.edu.laptrinhweb.nhom4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class HomeController {
@@ -37,8 +46,45 @@ public class HomeController {
     ProductService productService;
 
     @GetMapping({"/", "/home"})
-    public String home(Model model){
+    public String home(Model model,
+                       @RequestParam(name="name",required = false) String name,
+                       @RequestParam("page") Optional<Integer> page,
+                       @RequestParam("size") Optional<Integer> size){
         model.addAttribute("cartCount", GlobalData.cart.size());
+        model.addAttribute("categories", categoryService.getAllCategory());
+        model.addAttribute("products", productService.getAllProduct());
+
+        int count = (int) productService.count();
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(6);
+
+        Pageable pageable = PageRequest.of(currentPage -1, pageSize, Sort.by("id"));
+        Page<Product> resultPage = null;
+        if(StringUtils.hasText(name)) {
+            resultPage = productService.findByProductNameContaining(name, pageable);
+            model.addAttribute("name", name);
+        }
+        else {
+            resultPage = productService.findAll(pageable);
+        }
+
+        int totalPages = resultPage.getTotalPages();
+        if(totalPages > 0) {
+            int start = Math.max(1, currentPage-2);
+            int end = Math.min(currentPage+2, totalPages);
+            if(totalPages > count) {
+                if(end == totalPages) start = end - count;
+                else if(start == 1) end = start + count;
+            }
+            List<Integer> pageNumbers = IntStream.rangeClosed(start, end)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        model.addAttribute("productPage", resultPage);
+
+//        model.addAttribute("products", productService.getAllProduct());
         return "index";
     } //index
     @GetMapping("/users/add")
@@ -99,6 +145,7 @@ public class HomeController {
     public String viewProduct(@PathVariable long id, Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
         model.addAttribute("product", productService.getProductById(id).get());
+        model.addAttribute("products", productService.getRandomListProducts(6));
         return "viewProduct";
     } //view product Details
 
