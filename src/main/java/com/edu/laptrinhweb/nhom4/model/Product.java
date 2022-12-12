@@ -3,6 +3,8 @@ package com.edu.laptrinhweb.nhom4.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -18,8 +20,8 @@ public class Product {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY)
-    private Set<Bill_Product> bill_productList;
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    private Collection<Bill> bills = new ArrayList<>();
 
     private double price;
 
