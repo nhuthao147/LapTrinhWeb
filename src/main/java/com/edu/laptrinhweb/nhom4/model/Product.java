@@ -20,6 +20,9 @@ public class Product {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    private Collection<Bill> bills = new ArrayList<>();
+
     private double price;
 
     private double weight;
@@ -29,6 +32,4 @@ public class Product {
     private String imageName;
 
     private Long quantity;
-    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    private Collection<Bill> bills = new ArrayList<>();
 }//create table mapping trong db

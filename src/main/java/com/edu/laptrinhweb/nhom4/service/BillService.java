@@ -1,7 +1,9 @@
 package com.edu.laptrinhweb.nhom4.service;
 
 import com.edu.laptrinhweb.nhom4.model.Bill;
+import com.edu.laptrinhweb.nhom4.model.Category;
 import com.edu.laptrinhweb.nhom4.model.Product;
+import com.edu.laptrinhweb.nhom4.repository.BillRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

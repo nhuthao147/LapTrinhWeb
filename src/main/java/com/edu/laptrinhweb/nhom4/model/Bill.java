@@ -34,5 +34,4 @@ public class Bill {
 
     private double total;
 
-
 }

@@ -1,22 +1,14 @@
 package com.edu.laptrinhweb.nhom4.controller;
 
-import com.edu.laptrinhweb.nhom4.dto.UserDTO;
 import com.edu.laptrinhweb.nhom4.global.GlobalData;
 import com.edu.laptrinhweb.nhom4.model.Product;
-import com.edu.laptrinhweb.nhom4.model.Role;
-import com.edu.laptrinhweb.nhom4.model.User;
 import com.edu.laptrinhweb.nhom4.service.ProductService;
 import com.edu.laptrinhweb.nhom4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class CartController {
@@ -25,7 +17,6 @@ public class CartController {
 
     @Autowired
     UserService userService;
-
     @GetMapping("/cart")
     public String cartGet(Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
@@ -50,4 +41,5 @@ public class CartController {
     public String checkout(Model model){
         return "redirect:/bill/add";
     } // checkout totalPrice
+
 }

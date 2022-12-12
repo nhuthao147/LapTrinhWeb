@@ -7,6 +7,7 @@ import com.edu.laptrinhweb.nhom4.service.BillService;
 import com.edu.laptrinhweb.nhom4.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,9 +37,6 @@ public class BillServiceImpl implements BillService {
     public Optional<Bill> getBillById(Long id) {
         return billRepository.findById(id);
     }//search theo id
-
-
-
     @Autowired
     ProductService productService;
 

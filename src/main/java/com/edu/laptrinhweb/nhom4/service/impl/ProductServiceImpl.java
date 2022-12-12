@@ -25,7 +25,6 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
 	public void updateProduct(Product product) {
-
         productRepository.save(product);
     }//add or update (tuy vao pri-key)
 
