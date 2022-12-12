@@ -10,7 +10,12 @@ import java.util.List;
 
 public class CustomUserDetail extends User implements UserDetails {
 
-    public CustomUserDetail(User user){
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public CustomUserDetail(User user){
         super(user);
     }//ke thua lai model user
 
