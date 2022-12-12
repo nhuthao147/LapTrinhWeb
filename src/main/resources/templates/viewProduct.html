@@ -55,7 +55,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-sm-5 d-flex justify-content-center">
-            <img class="mt-5" height="300px" width="300px" src="" th:src="@{${'/productImages/' + product.imageName}}"
+            <img class="mt-5" height="300px" width="300px" src="" th:src="@{${'/media/' + product.imageName}}"
                  alt="">
         </div>
         <div class="col-sm-7 mt-5">
@@ -67,6 +67,22 @@
             </h5>
             <p th:text="${product.description}"></p>
             <a href="" th:href="@{/addToCart/{id}(id = ${product.id})}" class="btn btn-primary">Add to cart</a>
+        </div>
+    </div>
+    <p class="lead">
+        Recommended products:
+    </p>
+
+    <div class="row margin-top: 20px">
+        <div class="col-lg-2 col-md-4, col-sm-6" th:each="product : ${products}">
+            <div class="card mt-4" >
+                <img class="rounded mx-auto d-block pt-3" height="150px" width="150px" th:src="@{${'/media/' + product.imageName}}" th:alt="${product.name}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}" ></h5>
+                    <h4>₹ <span th:text="${product.price}"></span></h4>
+                    <a href="#" th:href="@{/shop/viewproduct/{id}(id=${product.id})}" class="btn btn-primary">View Product</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
