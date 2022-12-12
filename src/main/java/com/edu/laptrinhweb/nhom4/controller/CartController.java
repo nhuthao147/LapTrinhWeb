@@ -3,6 +3,7 @@ package com.edu.laptrinhweb.nhom4.controller;
 import com.edu.laptrinhweb.nhom4.global.GlobalData;
 import com.edu.laptrinhweb.nhom4.model.Product;
 import com.edu.laptrinhweb.nhom4.service.ProductService;
+import com.edu.laptrinhweb.nhom4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,8 @@ public class CartController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    UserService userService;
     @GetMapping("/cart")
     public String cartGet(Model model){
         model.addAttribute("cartCount", GlobalData.cart.size());
@@ -36,9 +39,7 @@ public class CartController {
 
     @GetMapping("/checkout")
     public String checkout(Model model){
-        model.addAttribute("cartCount", GlobalData.cart.size());
-        model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
-        //model.addAttribute("cart", GlobalData.cart);
-        return "checkout";
+        return "redirect:/bill/add";
     } // checkout totalPrice
+
 }
