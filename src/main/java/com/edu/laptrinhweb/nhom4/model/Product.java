@@ -3,6 +3,9 @@ package com.edu.laptrinhweb.nhom4.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,6 +20,9 @@ public class Product {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    private Collection<Bill> bills = new ArrayList<>();
+
     private double price;
 
     private double weight;
@@ -24,6 +30,8 @@ public class Product {
     private String description;
 
     private String imageName;
+    
+    private Long quantity;
 
 	public Long getId() {
 		return id;
@@ -80,5 +88,22 @@ public class Product {
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
+
+	public Collection<Bill> getBills() {
+		return bills;
+	}
+
+	public void setBills(Collection<Bill> bills) {
+		this.bills = bills;
+	}
+
+	public Long getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
+	
 
 }//create table mapping trong db
