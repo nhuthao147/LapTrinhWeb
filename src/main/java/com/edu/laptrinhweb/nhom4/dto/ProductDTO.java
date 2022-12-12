@@ -18,6 +18,8 @@ public class ProductDTO {
     private String description;
 
     private String imageName;
+    
+    private Long quantity;
 
 	public Long getId() {
 		return id;
@@ -73,6 +75,14 @@ public class ProductDTO {
 
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+
+	public Long getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
 	}
     
 }
